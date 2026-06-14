@@ -140,6 +140,26 @@ const refreshAccessToken = async(req,res)=>{
 
 }
 
+const logOut = async(req,res)=>{
+    const {refreshToken} = req.body
 
+    if(!refreshToken){
+        throw new Error("refresh Token is missing")
+    }
+    const user = await User.findOne({refreshToken})
+     if(!user){
+        res.status(404)
+        throw new Error("user is missing")
+    }
+    const refreshToken = await User.findByIdAndUpdate({user:user._id},{
+        refreshToken:""
+    },{new:true})
+    
+   if(refreshToken){
+     res.status(200).json({
+        message : "User Successfully Logout"
+    })
+   }
+}
 
-module.exports = {userRegister,userLogin,refreshAccessToken}
+module.exports = {userRegister,userLogin,refreshAccessToken,logOut}

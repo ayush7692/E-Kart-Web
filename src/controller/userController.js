@@ -1,5 +1,5 @@
 const Address = require("../model/adressmodel")
-const User = require("../model/usermodel")
+
 
 
 
@@ -69,5 +69,7 @@ const addAddress = async(req,res)=>{
         address
     })
 }
+
+
 
 module.exports = {addAddress,updateMyAddress}
