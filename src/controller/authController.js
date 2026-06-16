@@ -55,10 +55,11 @@ const userRegister = async(req,res)=>{
         name:user.name,
         phone: user.phone,
         email: user.email,
+        role: user.role,
         createdAt: user.createdAt,
         accessToken,
         refreshToken,
-        role
+        
     })
     }else{
         res.status(400)
@@ -93,8 +94,10 @@ const userLogin = async(req,res)=>{
             phone: user.phone,
             email: user.email,
             createdAt: user.createdAt,
+            role:user.role,
             accessToken,
             refreshToken
+            
         })
     }else{
         res.status(404).json({

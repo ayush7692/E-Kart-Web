@@ -22,8 +22,10 @@ const productSchema = new mongoose.Schema({
     stock:{
         type: Number,
         required:[true,"stock detail is required"],
+    },price:{
+        type: Number,
+        required:[true,"price detail is required"],
     },
-
     isActive:{
         type: Boolean,
         required:true,

@@ -25,11 +25,6 @@ const orderShema = new mongoose.Schema({
         },
         _id: false
     }],
-    vendor:{
-        type:mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref:"Vendor"
-    },
     status:{
         type: String,
         required: true,

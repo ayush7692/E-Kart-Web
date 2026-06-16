@@ -32,7 +32,7 @@ const addProduct = async(req,res)=>{
 
 const updateProduct = async(req,res)=>{
     const {name,description,category,stock} = req.body
-    const vendorId = req.vendor._id
+    const userId = req.user._id
     const productId = req.params.pid
 
     const allowedField = ["name","description","category","stock"]  
@@ -42,7 +42,10 @@ const updateProduct = async(req,res)=>{
         throw new Error("Entry not allowed")
     }
 
-    const productExist = await Product.findById(productId)
+    const vendor = await User.findOne({_id:userId,role:{ $in:['vendor'] }})
+
+   if(vendor){
+     const productExist = await Product.findById(productId)
     if(!productExist){
         res.status(404)
         throw new Error("product not found")
@@ -62,6 +65,14 @@ const updateProduct = async(req,res)=>{
         category:updatedProduct.category,
         stock:updatedProduct.stock
     })
+   }else{
+        res.status(400).json({
+            message : "your not allowed to update product"
+        })
+   }
+
+
+   
 
 }
 
