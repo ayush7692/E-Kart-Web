@@ -7,7 +7,7 @@ const { generateRefreshToken, generateAccessToken } = require("../utils/token");
 
 const userRegister = async(req,res)=>{
 
-    const {name,email,phone,password}= req.body
+    const {name,email,phone,password,role}= req.body
 
     const nameRegex = /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -38,7 +38,8 @@ const userRegister = async(req,res)=>{
         name,
         email,
         phone,
-        password : hashedPassword
+        password : hashedPassword,
+        role
     })
 
     if(user){
@@ -56,7 +57,8 @@ const userRegister = async(req,res)=>{
         email: user.email,
         createdAt: user.createdAt,
         accessToken,
-        refreshToken
+        refreshToken,
+        role
     })
     }else{
         res.status(400)

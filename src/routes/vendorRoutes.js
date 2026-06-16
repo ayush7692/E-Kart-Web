@@ -1,14 +1,14 @@
 const express = require('express')
-const {  getMyProducts, getMyProduct, addProduct, updateProduct, becomeVendor } = require('../controller/vendorController')
-const { forVendor, forUser } = require('../Middleware/authHandler')
+const { addProduct, updateProduct } = require('../controller/vendorController')
+const { forUser } = require('../Middleware/authHandler')
 
 
 const router = express.Router()
 
 
-router.post('/request',forUser,becomeVendor)
-router.post('/products',forVendor,addProduct)
-router.put('/products/:pid',forVendor,updateProduct)
+
+router.post('/products',forUser,addProduct)
+router.put('/products/:pid',forUser,updateProduct)
 
 
 

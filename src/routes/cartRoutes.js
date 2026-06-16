@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.get('/',forUser,getCart)
 router.post('/:pid',forUser,addToCart)
-router.put('/:pid',forUser,updateCart)
+router.put('/',forUser,updateCart)
 router.delete('/',forUser,clearCart)
 
 

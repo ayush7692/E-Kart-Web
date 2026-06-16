@@ -51,7 +51,6 @@ const addToCart = async(req,res)=>{
         (item) => item.product.toString() == productId,
       );
 
-        console.log(existingCart)
       if (existingCart) {
         const newQty = existingCart.qty + intQty;
 
@@ -96,11 +95,105 @@ const clearCart =  async(req,res)=>{
 
 const updateCart =  async(req,res)=>{
     const userId = req.user._id
-    res.send("update to cart ")
+    const {productId,qty} = req.body
+    const intQty = parseInt(qty)
+   
+    const cart = await Cart.findOne({user:userId})
+    if(!cart){
+        res.status(400)
+        throw new Error('cart not found')
+    }
+
+    const productExist = await Product.findById(productId)
+    if(!productExist){
+        res.status(400)
+        throw new Error('product not available')
+    }
+    
+    let cartExist  = cart.products.find((item)=> item.product.toString()==productId)
+
+       if(cartExist){
+        if(productExist.stock < intQty){
+            res.status(409)
+            throw new Error('insufficient stock')
+        }
+
+         cartExist.qty = intQty
+
+       }
+
+        await cart.save()
+        await cart.populate('products.product','-stock')
+
+      res.status(200).json(cart)
+
 }
+
+// const updateCart = async (req, res) => {
+//       const { product, qty } = req.body
+//       const userId = req.user._id
+
+//     if ( qty<1 || !product  ) {
+//         res.status(409)
+//         throw new Error("Please Enter Qty and product")
+//     }
+
+//     const productExist = await Product.findById(product)
+
+//     if(qty> productExist.stock){
+//         res.status(409)
+//         throw new Error("Stock not available")
+//     }
+
+//     const cart = await Cart.findOne({user:userId})
+
+//     if(!cart){
+//         res.status(404)
+//         throw new Error("No cart found")
+//     }
+
+//     const productIndex = cart.products.findIndex((item)=>{
+//         return item.product.toString() === product
+//     })
+        
+//     if(productIndex === -1){
+//         throw new Error("please add product in cart first")
+
+//     }
+
+//          cart.products[productIndex].qty = parseInt(qty)
+
+        
+//         if(cart.products[productIndex].qty> productExist.stock){
+//             res.status(409)
+//             throw new Error("limit exceed")
+//         }
+    
+
+//     await cart.save()
+
+//     await cart.populate('products.product')
+
+//     res.json(cart)
+// }
+
 const removeCartItem =  async(req,res)=>{
     const userId = req.user._id
-    res.send("update to cart ")}
+    const {productId} = req.params.pid
+   
+    const cart = await Cart.findOne({user:userId})
+    if(!cart){
+        res.status(400)
+        throw new Error('cart not found')
+    }
+    cart.products = cart.products.filter((items)=> item.product.toString()!==productId)
+
+    await cart.save()
+    cart.populate('porducts.product')
+
+    res.status(200).json(cart)
+
+}
 
 module.exports = {getCart,addToCart,updateCart,clearCart,removeCartItem}
 

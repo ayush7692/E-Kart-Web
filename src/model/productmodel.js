@@ -1,6 +1,12 @@
 const { default: mongoose } = require("mongoose");
+const Vendor = require("./vendorModel");
 
 const productSchema = new mongoose.Schema({
+    vendor:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Vendor",
+        required: true
+    },
     name:{
         type: String,
         required:[true,"Product name is required"],
