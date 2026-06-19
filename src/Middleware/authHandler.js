@@ -4,7 +4,7 @@ const Vendor = require("../model/vendorModel")
 
 
 const forUser = async(req,res,next)=>{
-
+    // console.log(req)
     let token
     try {
         if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
@@ -13,11 +13,12 @@ const forUser = async(req,res,next)=>{
             if (!token) {
                 throw new Error("token is unavailable")
             }
-
+            // console.log(token)
             let decode = jwt.verify(token,process.env.SECRET_KEY)
+        
 
             const user = await User.findById(decode.id)
-
+            // console.log(user)
             if(!user){
                 throw new Error('user not found')
             }

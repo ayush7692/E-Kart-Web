@@ -8,11 +8,10 @@ const getCart = async(req,res)=>{
     const cart = await Cart.findOne({user:userId}).populate("products.product" ,"-stock")
 
     if(!cart){
-       res.status(200).json({
-        product:[]
-       })
+       res.status(404)
+       throw new Error('Cart is Empty...')
     }
-    res.status(200).json(cart)
+    res.status(200).json(cart.products)
 
 }
 
@@ -65,7 +64,7 @@ const addToCart = async(req,res)=>{
             res.status(400)
             throw new Error('insufficient Stock')
         }
-        cart.products.push[{product:productId, qty:intQty}]
+        cart.products.push({product:productId, qty:intQty})
 
       }
         await cart.save()
@@ -94,8 +93,10 @@ const clearCart =  async(req,res)=>{
 }
 
 const increaseItem =  async(req,res)=>{
-    const userId = req.user._id
-    const {productId} = req.body
+    const userId = '6a33ecc11303f978c5962af2'
+    const productId = req.params.pid
+
+    console.log("contro",productId)
    
     const cart = await Cart.findOne({user:userId})
     if(!cart){
@@ -129,8 +130,8 @@ const increaseItem =  async(req,res)=>{
 }
 
 const decreaseItem =  async(req,res)=>{
-    const userId = req.user._id
-    const {productId} = req.body
+    const userId = '6a33ecc11303f978c5962af2'
+    const productId = req.params.pid
    
     const cart = await Cart.findOne({user:userId})
     if(!cart){
@@ -164,18 +165,18 @@ const decreaseItem =  async(req,res)=>{
 }
 
 const removeCartItem =  async(req,res)=>{
-    const userId = req.user._id
-    const {productId} = req.params.pid
+    const userId = '6a33ecc11303f978c5962af2'
+    const productId = req.params.pid
    
     const cart = await Cart.findOne({user:userId})
     if(!cart){
         res.status(400)
         throw new Error('cart not found')
     }
-    cart.products = cart.products.filter((items)=> item.product.toString()!==productId)
+    cart.products = cart.products.filter((item)=> item.product.toString()!==productId)
 
     await cart.save()
-    cart.populate('porducts.product')
+    
 
     res.status(200).json(cart)
 
