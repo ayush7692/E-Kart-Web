@@ -28,7 +28,7 @@ const createOrder = async(req,res)=>{
     },0)
 
     const useraddress = await Address.findOne({user:userId,default:true})
-    console.log(useraddress)
+
     if(!useraddress){
         res.status(404)
         throw new Error('please add address first')

@@ -6,7 +6,7 @@ const { forUser } = require('../Middleware/authHandler')
 const router = express.Router()
 
 router.get('/',forUser,getCart)     
-router.post('/',forUser,addToCart)
+router.post('/:pid',forUser,addToCart)
 router.put('/increase/:pid',forUser,increaseItem)
 router.put('/decrease/:pid',forUser,decreaseItem)
 router.put('/remove/:pid',forUser,removeCartItem)

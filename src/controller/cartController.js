@@ -17,12 +17,11 @@ const getCart = async(req,res)=>{
 
 const addToCart = async(req,res)=>{
     const userId = req.user._id
-    const {productId,qty} = req.body
-    const intQty = parseInt(qty)
+    const productId = req.params.pid
 
-    if(!productId||!intQty){
+    if(!productId){
         res.status(400)
-        throw new Error('Provide product and qty')
+        throw new Error('Provide product')
     }
 
     const productExist = await Product.findById(productId)
@@ -36,14 +35,9 @@ const addToCart = async(req,res)=>{
     let cart = await Cart.findOne({user:userId})
     if(!cart){
 
-         if (intQty > productExist.stock) {
-           res.status(400)
-           throw new Error("stock is unavailable");
-         }
-
         cart = await Cart.create({
             user:userId,
-            products :[{product:productId, qty:intQty}]
+            products :[{product:productId, qty:1}]
         })
     }else{
       let existingCart = cart.products.find(
@@ -51,7 +45,7 @@ const addToCart = async(req,res)=>{
       );
 
       if (existingCart) {
-        const newQty = existingCart.qty + intQty;
+        const newQty = existingCart.qty + 1;
 
         if(newQty > productExist.stock) {
           res.status(400)
@@ -60,11 +54,8 @@ const addToCart = async(req,res)=>{
 
         existingCart.qty = newQty;
       }else{
-        if(intQty>productExist.stock){
-            res.status(400)
-            throw new Error('insufficient Stock')
-        }
-        cart.products.push({product:productId, qty:intQty})
+       
+        cart.products.push({product:productId, qty:1 })
 
       }
         await cart.save()
