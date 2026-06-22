@@ -5,7 +5,7 @@ const User = require("../model/usermodel")
 
 
 const updateMyAddress = async(req,res)=>{
-    const {name,street,city,pinCode,country} = req.body
+    const {name,street,city,pinCode,country,email,phone,state} = req.body
     const aid = req.params.aid
     const userId = req.user._id
     
@@ -24,23 +24,25 @@ const updateMyAddress = async(req,res)=>{
         street:street,
         city:city,
         pinCode:pinCode,
-        country
+        country,
+        email:email,
+        phone:phone,
+        state:state
     })
     if(!updatedAddress){
         throw new Error("address not update")
     } 
 
-     res.status(200).json({
-        updatedAddress
-    })
+     res.status(200).json(updatedAddress)
 }
 
 const addAddress = async(req,res)=>{
 
-    const {name,street,city,pinCode,country} = req.body
+    const {name,street,city,pinCode,country,email,phone,state,isDefault} = req.body
     const userId = req.user._id
+ 
 
-    if(!name||!street||!city||!pinCode){
+    if(!name||!street||!city||!pinCode||!phone||!state||!email){
         res.status(401)
         throw new Error("Fill all the detail")
     }
@@ -54,25 +56,32 @@ const addAddress = async(req,res)=>{
         throw new Error('luser not found')
     }
 
+    const updated = await Address.updateMany({},{
+        $set:{isDefault:false}
+    })  
+
+
     const address = await Address.create({
         user:user._id,
         name,
         street,
         city,
         pinCode,
-        country
+        country,
+        state,
+        phone,
+        email,
+        isDefault
     })
 
     if(!address){
         throw new Error("address not created")
     }
 
-    res.status(200).json({
-        address
-    })
+    res.status(200).json([address])
 }
 const getAddress = async(req,res)=>{
-    const userId = '6a33ecc11303f978c5962af2'
+    const userId = req.user._id
 
     const myAddress = await Address.find({user:userId})
     if(myAddress.length==0){

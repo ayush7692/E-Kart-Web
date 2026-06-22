@@ -9,10 +9,9 @@ const userRegister = async(req,res)=>{
 
     const {fullName,email,phone,password,role}= req.body
 
-    console.log(req.body)
-
     const nameRegex = /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const passwordRegax = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if(!fullName || !email || !phone || !password){
         res.status(400)
@@ -23,6 +22,8 @@ const userRegister = async(req,res)=>{
         throw new Error("Provide a valide email id")
     }else if(phone.length>10 || phone.length<10){
         throw new Error("Provide valid Number")
+    }else if(!passwordRegax.test(password)){
+        throw new Error("please provide a special character ,number and a capital letter in password")
     }
 
     const userExist = await User.findOne({email:email})
@@ -30,6 +31,12 @@ const userRegister = async(req,res)=>{
     if(userExist){
         res.status(409)
         throw new Error("User already exist")
+    }
+    const numberExist = await User.findOne({phone:phone})
+
+    if(numberExist){
+        res.status(409)
+        throw new Error("This phone number is already in use")
     }
     
     const salt = await bcrypt.genSalt(12)

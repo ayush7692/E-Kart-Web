@@ -5,10 +5,10 @@ const Vendor = require("../model/vendorModel");
 
 const addProduct = async(req,res)=>{
 
-    const {name,description,category,stock} = req.body
+    const {name,description,category,stock,price,image} = req.body
     const userId = req.user._id
 
-    if(!name ||!description || !category || !stock ){
+    if(!name ||!description || !category || !stock || ! price ){
         res.status(400)
         throw new Error(" Fill all the detail ") }
 
@@ -19,7 +19,8 @@ const addProduct = async(req,res)=>{
         name,
         description,
         category,
-        stock
+        stock,
+        price
     })  
     
     if(!addProduct){
@@ -31,7 +32,7 @@ const addProduct = async(req,res)=>{
 }
 
 const updateProduct = async(req,res)=>{
-    const {name,description,category,stock} = req.body
+    const {name,description,category,stock,price} = req.body
     const userId = req.user._id
     const productId = req.params.pid
 
@@ -52,19 +53,14 @@ const updateProduct = async(req,res)=>{
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(productId,
-       { $set:{name,description,category,stock}},
+       { $set:{name,description,category,stock,price}},
         {new:true}
     )
     if(!updateProduct){
         res.status(401)   
         throw new Error("product not update")
     }
-    res.status(201).json({
-        name:updatedProduct.name,
-        description:updatedProduct.description,
-        category:updatedProduct.category,
-        stock:updatedProduct.stock
-    })
+    res.status(201).json(updatedProduct)
    }else{
         res.status(400).json({
             message : "your not allowed to update product"

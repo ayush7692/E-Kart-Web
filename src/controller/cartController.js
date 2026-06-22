@@ -87,7 +87,7 @@ const increaseItem =  async(req,res)=>{
     const userId = req.user._id
     const productId = req.params.pid
 
-    console.log("contro",productId)
+
    
     const cart = await Cart.findOne({user:userId})
     if(!cart){
@@ -143,7 +143,6 @@ const decreaseItem =  async(req,res)=>{
             res.status(409)
             throw new Error('insufficient stock')
         }
-
          cartItem.qty -= 1
 
        }
@@ -169,10 +168,12 @@ const removeCartItem =  async(req,res)=>{
     await cart.save()
     
 
-    res.status(200).json(cart)
+
+    res.status(200).json({id:req.params.pid})
 
 }
 
 module.exports = {getCart,addToCart,increaseItem,decreaseItem,clearCart,removeCartItem}
 
 
+a

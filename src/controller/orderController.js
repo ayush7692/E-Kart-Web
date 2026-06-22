@@ -27,7 +27,7 @@ const createOrder = async(req,res)=>{
         return acc+item.qty*item.purchasedPrice
     },0)
 
-    const useraddress = await Address.findOne({user:userId,default:true})
+    const useraddress = await Address.findOne({user:userId,isDefault:true})
 
     if(!useraddress){
         res.status(404)
