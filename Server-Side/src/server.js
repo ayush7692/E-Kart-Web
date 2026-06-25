@@ -29,6 +29,10 @@ const userRouter = require('./routes/userRoutes')
 const cartRouter = require('./routes/cartRoutes')
 const orderRouter = require('./routes/orderRoutes')
 
+// API Testing
+app.get('/',(req,res)=>{
+    res.send("API is working")
+})
 
 
 
@@ -46,13 +50,8 @@ app.use('/api/order',orderRouter)
 
 
 
-// API Testing
-app.get('/',(req,res)=>{
-    res.send("API is working")
-})
 
 app.use(errorHandler)
 
-app.listen(PORT,()=>{
-    console.log(`server on port ${PORT}`)
-})
+
+module.exports = app

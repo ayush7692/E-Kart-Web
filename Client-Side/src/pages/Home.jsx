@@ -117,11 +117,11 @@ const Home = () => {
                   </Link>
                   <button
                     onClick={() => dispatch(addItem(product?._id))}
-                    className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition"
+                    className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition cursor-pointer"
                   >
                     Add To Cart
                   </button>
-                </div>
+                </div> 
               </div>
             </div>
           ))}
