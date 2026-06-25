@@ -20,21 +20,20 @@ const Checkout = () => {
     0,
   );
 
-  console.log(address)
 
   useEffect(() => {
     if(!errorMessage){
       dispatch(getAddress());
-   }
-    if (errorMessage) {
-      toast.error(errorMessage);
-    }
-    
+   }  
   }, [errorMessage]);
   
+  const filteredData = address?.filter((item)=>item?.isDefault===true||item?.isDefault==="true" )
 
 
   const handlePlaceOrder = () => {
+    if(filteredData?.length===0){
+      return toast.error("Please Add Address first")
+    }
     dispatch(createOrders());
     setTimeout(() => {
       navigate("/order");
@@ -56,13 +55,13 @@ const Checkout = () => {
               </h2>
 
               <Link to={'/addAddress'} className="text-blue-800 font-medium hover:underline">
-                {address?"Update Address" : "Add Address"}
+                {filteredData?.length?"Update Address" : "Add Address"}
 
               </Link>
             </div>
 
            {
-            address?.filter((item)=>item?.isDefault===true||item?.isDefault==="true" ).map((item)=>(
+              filteredData?.map((item)=>(
                 
               <div key={item?._id}
                className="bg-blue-50 border border-blue-100 rounded-lg p-5 mt-15 max-h-80">
@@ -132,6 +131,7 @@ const Checkout = () => {
 
             <button
               onClick={handlePlaceOrder}
+              // disabled={filteredData?.length===0}
               className="w-full mt-6 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition hover:cursor-pointer"
             >
               Place Order

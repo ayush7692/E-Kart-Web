@@ -53,7 +53,7 @@ export const getAddress = createAsyncThunk('GET/ADDRESS',async(_,thunkAPI)=>{
                 authorization: `Bearer ${token}`
             }
         })
-        console.log(response.data)
+
         return response?.data
         
         
@@ -73,7 +73,6 @@ export const addAddress = createAsyncThunk('ADD/ADDRESS',async(addressData,thunk
                 authorization: `Bearer ${token}`
             }
         })
-        console.log(response.data)
         return response?.data
         
         
