@@ -45,13 +45,10 @@ app.use('/api/cart',cartRouter)
 app.use('/api/order',orderRouter)
 
 
-
-
-
-
-
-
 app.use(errorHandler)
 
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 
-module.exports = app
+module.exports =app
