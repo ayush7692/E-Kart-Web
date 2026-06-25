@@ -16,7 +16,7 @@ const getProduct = async(req,res)=>{
 
     const productId = req.params.pid
 
-    const products = await Product.findOne({_id:productId,isActive:true})
+    const products = await Product.findOne({_id:productId,isActive:true}).sort({createdAt:-1})
 
     if(!products){
         throw new Error('No products found')
