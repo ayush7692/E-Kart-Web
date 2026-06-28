@@ -24,17 +24,18 @@ const Checkout = () => {
   useEffect(() => {
     if(!errorMessage){
       dispatch(getAddress());
-   }  
-    if(errorMessage){
-      toast.error(errorMessage)
-    }
+   } 
   },[errorMessage]);
   
   const filteredData = address?.filter((item)=>item?.isDefault===true||item?.isDefault==="true" )
 
+  console.log(address)
+
 
   const handlePlaceOrder = () => {
-    if(filteredData?.length===0) return 
+    if(filteredData?.length===0){
+      toast.error("Add Address first")
+    } 
     dispatch(createOrders());
     setTimeout(() => {
       navigate("/order");

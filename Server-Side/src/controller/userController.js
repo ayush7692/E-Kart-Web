@@ -88,7 +88,7 @@ const getAddress = async(req,res)=>{
         res.status(404)
         throw new Error('No Address found')
     }
-    if(myAddress.length==0){
+    if(myAddress.length===0){
         res.status(404)
         throw new Error('first add Address')
     }
