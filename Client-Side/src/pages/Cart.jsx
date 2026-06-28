@@ -25,12 +25,12 @@ export default function Cart() {
       dispatch(removeItem(_id))
   };
 
-  const totalItem = cartItem.reduce(
+  const totalItem = cartItem?.reduce(
     (acc, item) => acc + item.qty,
     0
   );
 
-  const subtotal = cartItem.reduce(
+  const subtotal = cartItem?.reduce(
     (acc, item) => acc + item?.product?.price * item.qty,
     0
   );
@@ -99,7 +99,7 @@ export default function Cart() {
                   <div className="flex flex-col justify-between items-end">
                     <button
                       onClick={() => removeItems(item?.product?._id)}
-                      className="text-red-500"
+                      className="text-red-500 hover:cursor-pointer"
                     >
                       Remove
                     </button>

@@ -96,7 +96,6 @@ export const getCart = createAsyncThunk('GET/CART',async(_,thunkAPI)=>{
         
     } catch (error) {
         let message = error.response.data.message
-        console.log(message )
         return thunkAPI.rejectWithValue(message)
     }
 })

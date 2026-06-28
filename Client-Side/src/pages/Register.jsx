@@ -32,7 +32,6 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registerUser(formData))
-    console.log(formData)
   };
 
 

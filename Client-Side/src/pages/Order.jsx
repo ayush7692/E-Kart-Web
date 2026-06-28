@@ -82,19 +82,13 @@ export default function MyOrders() {
              }
              
 
-                {/* Footer */}
                 <div className="flex flex-col md:flex-row justify-between items-center mt-4 gap-3">
                   
                   <h3 className="text-lg font-bold text-blue-800">
                     Total: ₹{order?.totalBillAmount}
                   </h3>
 
-                  <div className="flex gap-3">
-                    <button className="bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-900">
-                      Print 
-                    </button>
-
-                  
+                  <div className="flex gap-3">  
                       <Link to={'/'}  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
                         Buy Again
                       </Link>

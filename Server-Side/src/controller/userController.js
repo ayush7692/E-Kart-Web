@@ -84,6 +84,10 @@ const getAddress = async(req,res)=>{
     const userId = req.user._id
 
     const myAddress = await Address.find({user:userId})
+    if(!myAddress){
+        res.status(404)
+        throw new Error('No Address found')
+    }
     if(myAddress.length==0){
         res.status(404)
         throw new Error('first add Address')

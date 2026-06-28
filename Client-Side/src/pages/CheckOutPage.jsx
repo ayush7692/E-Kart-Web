@@ -25,15 +25,16 @@ const Checkout = () => {
     if(!errorMessage){
       dispatch(getAddress());
    }  
-  }, [errorMessage]);
+    if(errorMessage){
+      toast.error(errorMessage)
+    }
+  },[errorMessage]);
   
   const filteredData = address?.filter((item)=>item?.isDefault===true||item?.isDefault==="true" )
 
 
   const handlePlaceOrder = () => {
-    if(filteredData?.length===0){
-      return toast.error("Please Add Address first")
-    }
+    if(filteredData?.length===0) return 
     dispatch(createOrders());
     setTimeout(() => {
       navigate("/order");
@@ -131,7 +132,7 @@ const Checkout = () => {
 
             <button
               onClick={handlePlaceOrder}
-              // disabled={filteredData?.length===0}
+              disabled={filteredData?.length===0}
               className="w-full mt-6 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition hover:cursor-pointer"
             >
               Place Order
